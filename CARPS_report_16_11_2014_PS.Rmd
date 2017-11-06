@@ -97,7 +97,7 @@ library(pander)
 ## Step 2: Load data
 
 ```{r}
-setwd("~/Stanford Ph.D/3rd year/Psych 251/Class_exercises_and_HW/problem_sets/ps3_Leibowitz_Shavit/CARPS_16-11-2014_PS")
+setwd("~/Stanford Ph.D/3rd year/Psych 251/Class_exercises_and_HW/problem_sets/ps3_Leibowitz_Shavit/THIS ONE/CARPS_16-11-2014_PS")
 df=read_dta("price_wolfers.dta")
 ```
 
