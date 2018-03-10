@@ -74,7 +74,7 @@ Percent successful shots when goalkeepers dove left when their team was behind/ 
 
 *Figure 1. Price & Wolfers descriptive table*
 
-![Figure 1. Price & Wolfers descriptive table](Price_Wolfers_table1.png)
+![Figure 1. Price & Wolfers descriptive table](img/Price_Wolfers_table1.png)
 ------
 
 
@@ -97,8 +97,7 @@ library(pander)
 ## Step 2: Load data
 
 ```{r}
-setwd("~/Stanford Ph.D/3rd year/Psych 251/Class_exercises_and_HW/problem_sets/ps3_Leibowitz_Shavit/THIS ONE/CARPS_16-11-2014_PS")
-df=read_dta("price_wolfers.dta")
+df=read_dta("data/price_wolfers.dta")
 ```
 
 ## Step 3: Tidy data
@@ -179,9 +178,9 @@ In the second step, we attempted to recreate the first four cells in the second 
 
 *Figure 2: zoom-in on % of dives and shots to the goalie's right & left by team position from Price & Wolfers' table 1*
 
-![](heading_first4.png)
+![](img/heading_first4.png)
 
-![](first4_old.png)
+![](img/first4_old.png)
 
 `r pander(old_pos, caption="table 3: % of dives and shots to the goalie's right/left, by team position- Old coding")`
 
@@ -209,9 +208,9 @@ We repeated the same procedure for the new coding to replicate the first four ce
 
 *Figure 3: zoom-in on % of dives and shots to the goalie's right & left by team position (New coding) from Price & Wolfers' table 1*
 
-![](heading_first4.png)
+![](img/heading_first4.png)
 
-![](first4_new.png)
+![](img/first4_new.png)
 
 As can be seen in the table below, we found no discrepencies.
 
@@ -271,17 +270,17 @@ As can be seen in the tables below, we found no major differences between the re
 
 *Figure 4: Price & Wolfers' table 1 percent of successful shots when goalie dove right and left by team position (old coding: behind, tied, ahead )*
 
-![](heading_last2.png)
+![](img/heading_last2.png)
 
-![](last2_old.png)
+![](img/last2_old.png)
 
 `r pander(old_suc, caption="table 5: % successful shots by dive direction and team position- Old coding")`
 
 *Figure 5: Price & Wolfers' table 1 percent of successful shots when goalie dove right and left by team position (New coding: behind, Not behind)*
 
-![](heading_last2.png)
+![](img/heading_last2.png)
 
-![](last2_new.png)
+![](img/last2_new.png)
 
 `r pander(new_suc, caption="table 6: % successful shots by dive direction and team position- New coding")`
 
@@ -327,6 +326,7 @@ As can be seen in more detail in the tables below, we replicated the results rep
 `r pander(bVa, digits=3, caption="table 8: 2-sample test for equality of proportions without continuity correction: 21 dives right out of 32 shots when behind compared to 50 dives right out of 90 shots when ahead")`
 
 `r pander(tVa, digits=3, caption="table 9: 2-sample test for equality of proportions without continuity correction: 66 dives right out of 118 shots when tied compared to 50 dives right out of 90 shots when ahead")`
+
 ## Step 5: Conclusion
 
 CARPS report:
