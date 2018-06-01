@@ -6,11 +6,17 @@ output:
     toc_float: true
 ---
 
-#### Article ID: 16-11-2014_PS
-#### Pilot 1: Shavit, Yochai Z.
-#### Co-pilot: Leibowitz, Kari A.
-#### Start date: 11/1/2017
-#### End date: 11/5/2017  
+```{r}
+articleID <- "16-11-2014_PS" # insert the article ID code here e.g., "10-3-2015_PS"
+reportType <- 'pilot'
+pilotNames <- "Yochai Shavit, Kari Leibowitz" # insert the pilot's name here e.g., "Tom Hardwicke". If there are multiple pilots enter both names in a character string e.g., "Tom Hardwicke, Bob Dylan"
+copilotNames <- "" # insert the co-pilot's name here e.g., "Michael Frank". If there are multiple co-pilots enter both names in a character string e.g., "Tom Hardwicke, Bob Dylan"
+pilotTTC <- 360 # insert the pilot's estimated time to complete (in minutes, fine to approximate) e.g., 120
+copilotTTC <- NA # insert the co- pilot's estimated time to complete (in minutes, fine to approximate) e.g., 120
+pilotStartDate <- as.Date("11/1/2017", format = "%m/%d/%y") # insert the pilot's start date in US format e.g., as.Date("01/25/18", format = "%m/%d/%y")
+copilotStartDate <- as.Date("", format = "%m/%d/%y") # insert the co-pilot's start date in US format e.g., as.Date("01/25/18", format = "%m/%d/%y")
+completionDate <- as.Date("", format = "%m/%d/%y") # copilot insert the date of final report completion (after any necessary rounds of author assistance) in US format e.g., as.Date("01/25/18", format = "%m/%d/%y")
+```
 
 -------
 
@@ -24,6 +30,7 @@ In the current article, the authors recorded data on 240 penalty kicks taken dur
 Presumably, the authors conducted a series of chi-square tests of proportions to determine whether goalkeepers where more likely to dive to their right when their team was behind, compared to when the score was tied, or their team was ahead. The authors **do not indicate directly which test they used**, but this seems to be a reasonable way to compare percents from independent groups (i.e, when the percents don't add up to 100). [INSUFFICIENT INFORMATION]
 
 In addition, the authors recoded the data giving a different meaning to the condition "goalkeeper's team is behind". While Roskes et al. looked at the score, Price and Wolfers also considered situations in which the team had more missed shots during the shoot-out as being "behind" reasoning that in these conditions the keeper would have a strong approach motivation. **The authors do not indicate whether this varaible was computed from the data or coded by idependent observers.** but do provide this information in their data
+
 ```{r echo=FALSE, include=T}
 insufficient=1
 ```
@@ -92,6 +99,11 @@ library(readxl) # import excel files
 library(CARPSreports) # custom report functions
 library(car)
 library(pander)
+```
+
+```{r}
+# Prepare report object. This will be updated automatically by the reproCheck function each time values are compared.
+reportObject <- data.frame(dummyRow = TRUE, reportedValue = NA, obtainedValue = NA, valueType = NA, percentageError = NA, comparisonOutcome = NA, eyeballCheck = NA)
 ```
 
 ## Step 2: Load data
@@ -186,7 +198,10 @@ In the second step, we attempted to recreate the first four cells in the second 
 
 This table is all but identical to the data reported in the article's table 1, however, we found one *minor* numerical error: in our replication, goalkeepers dove to their right 55.9% of the time when the score was tied. Price & Wolfers report 56.0% of the time. The percent error (PE) for this numerical error is `r round(pe_dr_st,2)`%
 
-CARPS report: `r compareValues(reportedValue=56.0, obtainedValue=55.9)`
+
+```{r} 
+reportObject <- reproCheck(reportedValue="56.0", obtainedValue=55.9, valueType = 'n')
+```
 
 ```{r}
 #Next- do the same with the new coding
@@ -286,7 +301,9 @@ As can be seen in the tables below, we found no major differences between the re
 
 We did find one *minor* numerical error, whereby the percent of successful shots when goalie dove left and the score was tied was reported as 68.1% and our replication found it to be `r round(old_suc[4,3], 2)`%. The PE for this numerical error is `r round(pe_suc_dr_st,2)`%
 
-CARPS report: `r compareValues(reportedValue=68.1, obtainedValue=68.2)`
+```{r}
+reportObject <- reproCheck(reportedValue="68.1", obtainedValue=68.2, valueType = 'n')
+```
 
 
 ### Inferential statistics
@@ -329,26 +346,66 @@ As can be seen in more detail in the tables below, we replicated the results rep
 
 ## Step 5: Conclusion
 
-CARPS report:
-
-```{r}
- carpsReport(Report_Type = "pilot", 
-             Article_ID = "16-11-2014 PS", 
-             Insufficient_Information_Errors = 1, 
-             Decision_Errors = 0, 
-             Major_Numerical_Errors = 0, 
-             Time_to_Complete = 360, 
-             Author_Assistance = FALSE)
-```
-
 We would consider this reproducibility effort as an overall success, if it wasn't for one major caveat- no information on the statistical test used, and therefore no values to compare our results with. The data provided by the authors was complete and well-organized, and did not require any further computations to get any of the key reported values. 
 
 We did not encounter any major numerical errors, indicating that even if the authors did not run their descriptive or inferential analyses on the original data (but rather relied on computed variables, which might be the case since there are computed variables in the provided dataset), it did not effect any of the values.
 
 However, the reproducibility effort was ultimaltely deemed a faliure since the authors did not provide any information in the statistical test they used to come to the conclusion that the percentege of goalkeepers' dives to their right when their team was behind was not different than the percenteges of dives to the right when the goalkeeper's team was tied or ahead. Since there are at least two ways to conduct this analysis (test of proportions or a one-way ANOVA on the number of dives to the right by team-position) their report is not reproducible per se. Having said that, with making a few reasonable assumption we did reproduce the reported no significant differences. We thus consider this an "Insufficient information error" rather than a "decision error". Without any values to compare oue obtained values (reported in tables 7-9) we can not claim to have fully reproduced the reported results. 
 
-## Session info:
+```{r}
+Author_Assistance = FALSE # was author assistance provided? (if so, enter TRUE)
+
+Insufficient_Information_Errors <- 1 # how many discrete insufficient information issues did you encounter?
+
+# Assess the causal locus (discrete reproducibility issues) of any reproducibility errors. Note that there doesn't necessarily have to be a one-to-one correspondance between discrete reproducibility issues and reproducibility errors. For example, it could be that the original article neglects to mention that a Greenhouse-Geisser correct was applied to ANOVA outcomes. This might result in multiple reproducibility errors, but there is a single causal locus (discrete reproducibility issue).
+
+locus_typo <- NA # how many discrete issues did you encounter that related to typographical errors?
+locus_specification <- NA # how many discrete issues did you encounter that related to incomplete, incorrect, or unclear specification of the original analyses?
+locus_analysis <- NA # how many discrete issues did you encounter that related to errors in the authors' original analyses?
+locus_data <- NA # how many discrete issues did you encounter that related to errors in the data files shared by the authors?
+locus_unidentified <- NA # how many discrete issues were there for which you could not identify the cause
+
+Affects_Conclusion <- NA # Do any reproducibility issues encounter appear to affect the conclusions made in the original article? This is a subjective judgement, but you should taking into account multiple factors, such as the presence/absence of decision errors, the number of target outcomes that could not be reproduced, the type of outcomes that could or could not be reproduced, the difference in magnitude of effect sizes, and the predictions of the specific hypothesis under scrutiny.
+```
+
+```{r}
+reportObject <- reportObject %>%
+  filter(dummyRow == FALSE) %>% # remove the dummy row
+  select(-dummyRow) %>% # remove dummy row designation
+  mutate(articleID = articleID) %>% # add the articleID 
+  select(articleID, everything()) # make articleID first column
+
+# decide on final outcome
+if(any(reportObject$comparisonOutcome != "MATCH") | Insufficient_Information_Errors > 0){
+  finalOutcome <- "Failure without author assistance"
+  if(Author_Assistance == T){
+    finalOutcome <- "Failure despite author assistance"
+  }
+}else{
+  finalOutcome <- "Success without author assistance"
+  if(Author_Assistance == T){
+    finalOutcome <- "Success with author assistance"
+  }
+}
+
+# collate report extra details
+reportExtras <- data.frame(articleID, pilotNames, copilotNames, pilotTTC, copilotTTC, pilotStartDate, copilotStartDate, completionDate, Author_Assistance, finalOutcome, Insufficient_Information_Errors, locus_typo, locus_specification, locus_analysis, locus_data, locus_unidentified)
+
+# save report objects
+if(reportType == "pilot"){
+  write_csv(reportObject, "pilotReportDetailed.csv")
+  write_csv(reportExtras, "pilotReportExtras.csv")
+}
+
+if(reportType == "final"){
+  write_csv(reportObject, "finalReportDetailed.csv")
+  write_csv(reportExtras, "finalReportExtras.csv")
+}
+```
+
+## Session information
 
 ```{r session_info, include=TRUE, echo=TRUE, results='markup'}
 devtools::session_info()
 ```
+
