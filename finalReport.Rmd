@@ -188,11 +188,6 @@ reportObject <- reproCheck(reportedValue = '41.5', obtainedValue = old_pos %>% f
 reportObject <- reproCheck(reportedValue = '42.2', obtainedValue = old_pos %>% filter(team_pos == "3.Ahead") %>% pull(shot_goalie_left), valueType = 'n')
 ```
 
-
-
-
-
-
 ```{r}
 #Next- do the same with the new coding
 new_pos=df_tidy%>%group_by(new_pos)%>%summarise(dive_right=sum(dive_dir=='right'), dive_left=sum(dive_dir=='left'), shot_goalie_right=sum(shot_dir_rv=='right'), shot_goalie_left=sum(shot_dir_rv=='left'))%>%ungroup()
@@ -206,7 +201,6 @@ new_pos$shot_goalie_right[2]=round(((new_pos$shot_goalie_right[2]/n_not_new)*100
 new_pos$shot_goalie_left[1]=round(((new_pos$shot_goalie_left[1]/n_behind_new)*100),1)
 new_pos$shot_goalie_left[2]=round(((new_pos$shot_goalie_left[2]/n_not_new)*100),1)
 ```
-
 
 All seems to match.
 
@@ -300,7 +294,6 @@ reportObject <- reproCheck(reportedValue = '71.0', obtainedValue = new_suc %>% f
 
 reportObject <- reproCheck(reportedValue = '73.9', obtainedValue = new_suc %>% filter(new_pos == "not behind", dive_dir == "right") %>% pull(suc_count), valueType = 'n')
 ```
-
 
 ### Inferential statistics
 
