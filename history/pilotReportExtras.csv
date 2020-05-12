@@ -1,2 +1,0 @@
-articleID,pilotNames,copilotNames,pilotTTC,copilotTTC,pilotStartDate,copilotStartDate,completionDate,Author_Assistance,finalOutcome,Insufficient_Information_Errors,locus_typo,locus_specification,locus_analysis,locus_data,locus_unidentified
-16-11-2014_PS,"Yochai Shavit, Kari Leibowitz",,360,NA,2020-11-01,NA,NA,FALSE,Failure without author assistance,1,NA,NA,NA,NA,NA
